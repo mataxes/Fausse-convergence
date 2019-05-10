@@ -1,0 +1,29 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class Change_angle_droit_tr : MonoBehaviour
+{
+
+    public GameObject cam1;
+    public GameObject encre;
+    public GameObject obj;
+    private float dist;
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+        encre.transform.position = new Vector3(0, 0, 0);
+        encre.transform.Translate(cam1.transform.right * (-0.03f));
+
+        Debug.Log(cam1.transform.right);
+    }
+}
