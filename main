@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class main : MonoBehaviour
+{
+    // les trois types de caméras, celles pour la fausse convergance, celles pour le décalage simple, et celle normal
+    public GameObject cam_g_rot;
+    public GameObject cam_d_rot;
+    public GameObject cam_g_tr;
+    public GameObject cam_d_tr;
+    public GameObject cam_both;
+
+    // Use this for initialization
+    void Start()
+    {
+        cam_g_rot.SetActive(true);
+     //   PupilSettings.Instance.currentCamera = cam_g_rot.GetComponent<Camera>();
+        cam_d_rot.SetActive(true);
+        cam_g_tr.SetActive(false);
+        cam_d_tr.SetActive(false);
+        cam_both.SetActive(false);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            cam_g_rot.SetActive(false);
+            cam_d_rot.SetActive(false);
+            cam_g_tr.SetActive(false);
+            cam_d_tr.SetActive(false);
+            cam_both.SetActive(true);
+         //   PupilSettings.Instance.currentCamera = cam_both.GetComponent<Camera>();
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            cam_g_rot.SetActive(true);
+           // PupilSettings.Instance.currentCamera = cam_g_rot.GetComponent<Camera>();
+            cam_d_rot.SetActive(true);
+            cam_g_tr.SetActive(false);
+            cam_d_tr.SetActive(false);
+            cam_both.SetActive(false);
+        }
+        if (Input.GetMouseButtonDown(2))
+        {
+            cam_g_rot.SetActive(false);
+            cam_d_rot.SetActive(false);
+            cam_g_tr.SetActive(true);
+          //  PupilSettings.Instance.currentCamera = cam_g_tr.GetComponent<Camera>();
+            cam_d_tr.SetActive(true);
+            cam_both.SetActive(false);
+        }
+        
+
+    }
+}
