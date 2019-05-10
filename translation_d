@@ -9,7 +9,6 @@ public class Change_angle_droit_tr : MonoBehaviour
 
     public GameObject cam1;
     public GameObject encre;
-    public GameObject obj;
     private float dist;
 
     // Use this for initialization
