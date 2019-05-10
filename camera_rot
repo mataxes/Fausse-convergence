@@ -1,0 +1,46 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class camera_rot : MonoBehaviour
+{
+
+    public GameObject cam_d;
+    public GameObject cam_g;
+    public GameObject encre_d;
+    public GameObject encre_g;
+    //  public GameObject obj;
+    private float dist;
+
+    // Use this for initialization
+    void Start()
+    {
+        PupilTools.SubscribeTo("gaze"); //Mettre le eye-tracking en mode suivi de regard
+        PupilSettings.Instance.currentCamera = cam_d.GetComponent<Camera>(); //On prend les infos de la caméra droite seulement
+    }
+
+    void Update()
+    {
+        encre_d.transform.position = new Vector3(0, 0, 0); //Positionnement du centre de la salle caméra droite
+        encre_d.transform.rotation = Quaternion.Euler(0, 0, 0); //Rotation à 0 aussi
+        encre_d.transform.Translate(cam_d.transform.right * (-0.03f)); //Translation de 3cm
+        encre_g.transform.position = new Vector3(0, 0, 0); //Idem pour la caméra gauche
+        encre_g.transform.rotation = Quaternion.Euler(0, 0, 0);
+        encre_g.transform.Translate(cam_g.transform.right * (0.03f)); //Translation dans l'autre sens : les deux caméras sont au même endroit
+
+        Ray ray1 = cam_d.GetComponent<Camera>().ViewportPointToRay(new Vector2(PupilData._2D.RightEyePosition.x, PupilData._2D.RightEyePosition.y)); //Crée un rayon qui part de la caméra droite et passe par le point que regarde l'oeil droit
+        RaycastHit hit; //Initialisation point d'impact
+
+        if (Physics.SphereCast(ray1, 0.1f, out hit)) //Si un objet est rencontré par le rayon (avec une erreur de 10cm de rayon)
+        {
+            dist = Vector3.Distance(cam_d.transform.position, hit.point) + 0.1f; //Distance entre la caméra (droite) et le point d'impact
+            encre_d.transform.RotateAround(hit.point, cam_d.transform.up, Mathf.Asin(-0.06f / dist) * 180f / Mathf.PI); //Rotation autour du point d'impact de la caméra droite, d'un angle lié à la distance et à l'écart entre les yeux (6cm)
+            encre_g.transform.RotateAround(hit.point, cam_g.transform.up, Mathf.Asin(0.06f / dist) * 180f / Mathf.PI); //Idem dans l'autre sens pour la caméra gauche
+        }
+        
+        print(hit.point); //Affiche les coordonnées du point d'impact (3D)
+        Debug.Log(PupilData._2D.RightEyePosition); //Affiche les coordonnées du point regardé par l'oeil droit
+    }
+}
